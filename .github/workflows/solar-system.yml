@@ -97,6 +97,8 @@ jobs:
       needs: docker
       environment: 
         name: development
+      outputs:
+        APP_INGRESS_URL: ${{ steps.ip_ingress.outputs.INGRESS_IP }}
       steps:
         - name: Checkout Repository
           uses: actions/checkout@v4
@@ -118,8 +120,9 @@ jobs:
 
         - name: Get IP Ingress
           continue-on-error: true
+          id: ip_ingress
           run: |
-            echo "$INGRESS_IP=kubectl -n ingress-nginx get services ingress-nginx-controller -o jsonpath="{.status.loadBalancer.ingress[0].ip}"" >> $GITHUB_ENV
+            echo "$INGRESS_IP=kubectl -n ingress-nginx get services ingress-nginx-controller -o jsonpath="{.status.loadBalancer.ingress[0].ip}"" >> "$GITHUB_OUTPUT"
 
         - uses: cschleiden/replace-tokens@v1
           with:
@@ -133,5 +136,11 @@ jobs:
 
         - name: Print Files
           run: cat kubernetes/development/*.yaml
+
+    integration-testing:
+      needs: dev-deploy
+      uses: ./.github/workflows/reusable-workflow.yml
+      with:
+        ingress-url: ${{ needs.dev-deploy.outputs.APP_INGRESS_URL }}
 
 
