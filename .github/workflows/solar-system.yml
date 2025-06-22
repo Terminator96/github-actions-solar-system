@@ -122,7 +122,7 @@ jobs:
           continue-on-error: true
           id: ip_ingress
           run: |
-            echo "$INGRESS_IP=kubectl -n ingress-nginx get services ingress-nginx-controller -o jsonpath="{.status.loadBalancer.ingress[0].ip}"" >> "$GITHUB_OUTPUT"
+            echo "$INGRESS_IP=localhost" >> "$GITHUB_OUTPUT"
 
         - uses: cschleiden/replace-tokens@v1
           with:
