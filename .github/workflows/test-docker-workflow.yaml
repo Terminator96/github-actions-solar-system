@@ -18,13 +18,4 @@ jobs:
         steps:
             - name: Testing Image
               run: |
-                for i in {1..10}; do
-                    if curl -sf http://app:3000; then
-                    echo "✅ Servicio listo"
-                    exit 0
-                    fi
-                    echo "⏳ Esperando que el servicio responda..."
-                    sleep 3
-                done
-                echo "❌ El servicio no respondió a tiempo" >&2
-                exit 1
+                curl http://app:3000
