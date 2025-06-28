@@ -10,11 +10,11 @@ jobs:
     testing_docker:
         runs-on: [ubuntu-latest]
         services:
-            my_image:
+            my-image:
                 image: ${{ inputs.image_name }}
                 ports:
                     - 3000:3000
                 
         steps:
             - name: Testing Image
-              run: curl http://my_image:3000/live
+              run: curl http://my-image:3000tes
