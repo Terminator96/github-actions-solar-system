@@ -13,8 +13,8 @@ jobs:
             my_image:
                 image: ${{ inputs.image_name }}
                 ports:
-                    - 3000
+                    - 3000:3000
                 
         steps:
             - name: Testing Image
-              run: curl localhost:3000
+              run: curl http://my_image3000/live
