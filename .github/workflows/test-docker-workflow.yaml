@@ -17,4 +17,4 @@ jobs:
                 
         steps:
             - name: Testing Image
-              run: curl tlocalhost/live 
+              run: curl localhost/live 
