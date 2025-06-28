@@ -17,4 +17,4 @@ jobs:
                 
         steps:
             - name: Testing Image
-              run: curl http://my_image3000/live
+              run: curl http://my_image:3000/live
