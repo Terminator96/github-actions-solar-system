@@ -17,4 +17,4 @@ jobs:
                 
         steps:
             - name: Testing Image
-              run: curl http://localhost:3000/live | grep 'live'
+              run: curl https://localhost:3000/live | grep 'live'
