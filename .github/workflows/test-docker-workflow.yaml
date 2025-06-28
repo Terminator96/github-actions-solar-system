@@ -1,0 +1,20 @@
+name: Testing Docker Image
+
+on: 
+    workflow_call: 
+        inputs:
+            image_name:
+                required: true
+                type: string
+jobs:
+    testing_docker:
+        runs-on: [ubuntu-latest]
+        services:
+            my_image:
+                image: ${{ inputs.image_name }}
+                ports:
+                    - 3000:3000
+                
+        steps:
+            - name: Testing Image
+              run: curl http:localhost:3000/live | grep 'live'
