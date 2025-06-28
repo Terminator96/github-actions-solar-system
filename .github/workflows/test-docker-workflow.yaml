@@ -10,11 +10,21 @@ jobs:
     testing_docker:
         runs-on: [ubuntu-latest]
         services:
-            my-image:
+            app:
                 image: ${{ inputs.image_name }}
                 ports:
                     - 3000:3000
                 
         steps:
             - name: Testing Image
-              run: curl http://my-image:3000
+              run: |
+                for i in {1..10}; do
+                    if curl -sf http://app:3000; then
+                    echo "✅ Servicio listo"
+                    exit 0
+                    fi
+                    echo "⏳ Esperando que el servicio responda..."
+                    sleep 3
+                done
+                echo "❌ El servicio no respondió a tiempo" >&2
+                exit 1
