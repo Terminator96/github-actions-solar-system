@@ -75,35 +75,39 @@ jobs:
 
     docker:
       needs: [code-coverage, unit-testing]
-      runs-on: ubuntu-latest
-      outputs:
-        docker_image_name: ${{ steps.get_image_name.outputs.IMAGE_NAME }}
+      uses: ./.github/workflows/reusable-workflow.yml
       permissions: 
         packages: write
-        
-      steps:
-        - name: Checkout Repository
-          uses: actions/checkout@v4
-        
-        - name: Login to Docker Hub
-          uses: docker/login-action@v3
-          with:
-            registry: ghcr.io
-            username: ${{ github.repository_owner }}
-            password: ${{ secrets.GITHUB_TOKEN }}
 
-        - name: Define Image Name
-          id: get_image_name
-          run: | 
-            echo "IMAGE_NAME=ghcr.io/terminator96/solar-system:${{ github.sha }}" >> "$GITHUB_ENV"
-            echo "IMAGE_NAME=ghcr.io/terminator96/solar-system:${{ github.sha }}" >> "$GITHUB_OUTPUT"
+      # outputs:
+      #   docker_image_name: ${{ steps.get_image_name.outputs.IMAGE_NAME }}
+      # permissions: 
+      #   packages: write
+      
+        
+      # steps:
+      #   - name: Checkout Repository
+      #     uses: actions/checkout@v4
+        
+      #   - name: Login to Docker Hub
+      #     uses: docker/login-action@v3
+      #     with:
+      #       registry: ghcr.io
+      #       username: ${{ github.repository_owner }}
+      #       password: ${{ secrets.GITHUB_TOKEN }}
 
-        - name: Build and push
-          uses: docker/build-push-action@v6
-          with:
-            context: .
-            push: true
-            tags: ${{ steps.get_image_name.outputs.IMAGE_NAME }}
+      #   - name: Define Image Name
+      #     id: get_image_name
+      #     run: | 
+      #       echo "IMAGE_NAME=ghcr.io/terminator96/solar-system:${{ github.sha }}" >> "$GITHUB_ENV"
+      #       echo "IMAGE_NAME=ghcr.io/terminator96/solar-system:${{ github.sha }}" >> "$GITHUB_OUTPUT"
+
+      #   - name: Build and push
+      #     uses: docker/build-push-action@v6
+      #     with:
+      #       context: .
+      #       push: true
+      #       tags: ${{ steps.get_image_name.outputs.IMAGE_NAME }}
     
     testing-image:
       needs: [docker]
