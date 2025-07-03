@@ -3,7 +3,7 @@ on:
   workflow_call: 
 
 jobs:
-  docker:
+  docker-reusable:
       runs-on: ubuntu-latest
       outputs:
         docker_image_name: ${{ steps.get_image_name.outputs.IMAGE_NAME }}
