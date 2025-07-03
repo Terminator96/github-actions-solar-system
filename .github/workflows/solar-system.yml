@@ -81,7 +81,7 @@ jobs:
 
     deploy-dev:
       needs: [docker]
-      uses: Devops-jonathan/deploy-k8s/.github/workflows/unit-test.yml@main
+      uses: Devops-jonathan/deploy-k8s/.github/workflows/deploy.yaml@main
     
     # dev-deploy:
     #   runs-on: [ubuntu-latest]
