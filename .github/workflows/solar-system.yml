@@ -20,32 +20,7 @@ jobs:
           MONGO_USERNAME: 'superuser'
         secrets: 
           MONGO_PASSWORD: '${{ secrets.MONGO_PASSWORD }}'
-        # container:
-        #   image: node:20
- 
-        # runs-on: ubuntu-latest
-        # steps:
-        # - name: Checkout Repository 
-        #   uses: actions/checkout@v4
-     
-        # - name: Cache NPM dependencies
-        #   uses: actions/cache@v4
-        #   with:
-        #     key: "${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}"
-        #     path: node_modules
 
-        # - name: Install Dependencies
-        #   run: npm install
-    
-        # - name: Unit Testing
-        #   run: npm test
-          
-        # - name: Archive Test Result
-        #   uses: actions/upload-artifact@v4
-        #   if: always()
-        #   with:
-        #     name: Mocha-Test-Result
-        #     path: test-results.xml
     
     code-coverage:
       name: Run Coverage
@@ -81,6 +56,7 @@ jobs:
 
     deploy-dev:
       needs: [docker]
+      if: github.ref == 'refs/heads/feature/workflow'
       uses: Devops-jonathan/deploy-k8s/.github/workflows/deploy.yaml@main
       with:
         prefix: '_{_'
