@@ -15,8 +15,8 @@ env:
 jobs:
     unit-testing:
         uses: Devops-jonathan/unit-test-workflow/.github/workflows/unit-test.yml@main
-        # secrets: 
-        #   token: ${{ secrets.WORKFLOW_SECRET_AUTH }}
+        secrets: 
+          token: ${{ secrets.WORKFLOW_SECRET_AUTH }}
         # container:
         #   image: node:20
  
