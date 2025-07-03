@@ -86,6 +86,7 @@ jobs:
         prefix: '_{_'
         sufix: '_}_'
         files: '["kubernetes/**/.yaml"]'
+        path: 'test'
     
     # dev-deploy:
     #   runs-on: [ubuntu-latest]
