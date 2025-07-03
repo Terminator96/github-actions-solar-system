@@ -1,6 +1,9 @@
 name: Buid and Push Docker - Reusable Workflow
 on: 
   workflow_call: 
+    outputs:
+      docker_image_name: 
+        value: ${{ jobs.docker-reusable.outputs.IMAGE_NAME }}
 
 jobs:
   docker-reusable:
