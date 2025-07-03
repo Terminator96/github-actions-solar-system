@@ -64,6 +64,7 @@ jobs:
         files: '["kubernetes/**/*.yaml"]'
         path: 'test'
         env: 'development'
+        image: ${{ needs.docker.outputs.docker_image_name }}
     
     deploy-prd:
       needs: [docker]
