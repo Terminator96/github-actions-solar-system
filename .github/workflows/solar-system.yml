@@ -15,8 +15,11 @@ env:
 jobs:
     unit-testing:
         uses: Devops-jonathan/unit-test-workflow/.github/workflows/unit-test.yml@main
+        with:
+          MONGO_URI: 'mongodb+srv://supercluster.d83jj.mongodb.net/superData'
+          MONGO_USERNAME: 'superuser'
         secrets: 
-          token: ${{ secrets.WORKFLOW_SECRET_AUTH }}
+          MONGO_PASSWORD: '${{ secrets.MONGO_PASSWORD }}'
         # container:
         #   image: node:20
  
