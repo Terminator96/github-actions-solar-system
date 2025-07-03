@@ -65,6 +65,17 @@ jobs:
         path: 'test'
         env: 'development'
     
+    deploy-prd:
+      needs: [docker]
+      if: github.ref == 'refs/heads/main'
+      uses: Devops-jonathan/deploy-k8s/.github/workflows/deploy.yaml@main
+      with:
+        prefix: '_{_'
+        sufix: '_}_'
+        files: '["kubernetes/**/*.yaml"]'
+        path: 'test'
+        env: 'production'
+    
     # dev-deploy:
     #   runs-on: [ubuntu-latest]
 
