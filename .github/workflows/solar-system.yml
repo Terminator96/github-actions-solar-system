@@ -76,6 +76,7 @@ jobs:
         files: '["kubernetes/**/*.yaml"]'
         path: 'test'
         env: 'production'
+        image: ${{ needs.docker.outputs.docker_image_name }}
     
     # dev-deploy:
     #   runs-on: [ubuntu-latest]
