@@ -85,7 +85,7 @@ jobs:
       with:
         prefix: '_{_'
         sufix: '_}_'
-        files: '["kubernetes/**/.yaml"]'
+        files: '["kubernetes/**/*.yaml"]'
         path: 'test'
         env: 'development'
     
