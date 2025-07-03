@@ -14,7 +14,6 @@ env:
 
 jobs:
     unit-testing:
-        name: Unit Testing
         uses: Devops-jonathan/unit-test-workflow/.github/workflows/unit-test.yml@1.0.0
         secrets: 
           token: ${{ secrets.WORKFLOW_SECRET_AUTH }}
