@@ -82,6 +82,10 @@ jobs:
     deploy-dev:
       needs: [docker]
       uses: Devops-jonathan/deploy-k8s/.github/workflows/deploy.yaml@main
+      with:
+        prefix: '_{_'
+        sufix: '_}_'
+        files: '["kubernetes/**/.yaml"]'
     
     # dev-deploy:
     #   runs-on: [ubuntu-latest]
