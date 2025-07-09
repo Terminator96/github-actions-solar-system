@@ -54,29 +54,31 @@ jobs:
       permissions: 
         packages: write
 
-    deploy-dev:
+    deploying:
+      strategy:
+        matrix:
+          env: [production, development]
       needs: [docker]
-      if: github.ref == 'refs/heads/feature/workflow'
       uses: Devops-jonathan/deploy-k8s/.github/workflows/deploy.yaml@main
       with:
         prefix: '_{_'
         sufix: '_}_'
         files: '["kubernetes/**/*.yaml"]'
         path: 'test'
-        env: 'development'
+        env: ${{ matrix.env }}
         image: ${{ needs.docker.outputs.docker_image_name }}
     
-    deploy-prd:
-      needs: [docker]
-      if: github.ref == 'refs/heads/main'
-      uses: Devops-jonathan/deploy-k8s/.github/workflows/deploy.yaml@main
-      with:
-        prefix: '_{_'
-        sufix: '_}_'
-        files: '["kubernetes/**/*.yaml"]'
-        path: 'test'
-        env: 'production'
-        image: ${{ needs.docker.outputs.docker_image_name }}
+    # deploy-prd:
+    #   needs: [docker]
+    #   if: github.ref == 'refs/heads/main'
+    #   uses: Devops-jonathan/deploy-k8s/.github/workflows/deploy.yaml@main
+    #   with:
+    #     prefix: '_{_'
+    #     sufix: '_}_'
+    #     files: '["kubernetes/**/*.yaml"]'
+    #     path: 'test'
+    #     env: 'production'
+    #     image: ${{ needs.docker.outputs.docker_image_name }}
     
     # dev-deploy:
     #   runs-on: [ubuntu-latest]
