@@ -6,28 +6,70 @@ on:
     branches:
       - main
       - 'feature/*'
-    
+
+env:
+  MONGO_URI: 'mongodb+srv://supercluster.d83jj.mongodb.net/superData'
+  MONGO_USERNAME: 'superuser'
+  MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
+
 jobs:
     unit-testing:
-        name: Unit Testing
-        runs-on: ubuntu-latest
-        steps:
+        uses: Devops-jonathan/unit-test-workflow/.github/workflows/unit-test.yml@main
+        with:
+          MONGO_URI: 'mongodb+srv://supercluster.d83jj.mongodb.net/superData'
+          MONGO_USERNAME: 'superuser'
+        secrets: 
+          MONGO_PASSWORD: '${{ secrets.MONGO_PASSWORD }}'
+
+    
+    code-coverage:
+      name: Run Coverage
+      runs-on: ubuntu-latest
+      steps:
         - name: Checkout Repository
           uses: actions/checkout@v4
 
         - name: Setup NodeJS Version
           uses: actions/setup-node@v4
           with:
-            node-version: 20
+            node-version: 18
     
         - name: Install Dependencies
           run: npm install
-    
-        - name: Unit Testing
-          run: npm test
-          
+
+        - name: Run Coverage
+          continue-on-error: true
+          run: npm run coverage
+
         - name: Archive Test Result
           uses: actions/upload-artifact@v4
           with:
-            name: Mocha-Test-Result
-            path: test-results.xml
+            name: Code-Coverage-Result
+            path: coverage
+            retention-days: 5
+
+    docker:
+      needs: [code-coverage, unit-testing]
+      uses: ./.github/workflows/reusable-workflow.yml
+      permissions: 
+        packages: write
+
+    deploying:
+      strategy:
+        matrix:
+          env: [production, development]
+        fail-fast: false
+      needs: [docker]
+      uses: Devops-jonathan/deploy-k8s/.github/workflows/deploy.yaml@main
+      with:
+        prefix: '_{_'
+        sufix: '_}_'
+        files: '["kubernetes/**/*.yaml"]'
+        path: "kubernetes/${{ matrix.env }}"
+        env: ${{ matrix.env }}
+        image: ${{ needs.docker.outputs.docker_image_name }}
+      secrets: 
+        K8S_CONFIG: ${{ secrets.K8S_CONFIG }}
+    
+
+
