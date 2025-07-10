@@ -65,7 +65,7 @@ jobs:
         prefix: '_{_'
         sufix: '_}_'
         files: '["kubernetes/**/*.yaml"]'
-        path: 'test'
+        path: "kubernetes/${{ matrix.env }}/test"
         env: ${{ matrix.env }}
         image: ${{ needs.docker.outputs.docker_image_name }}
       secrets: 
