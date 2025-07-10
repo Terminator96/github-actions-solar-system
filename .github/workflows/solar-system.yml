@@ -68,8 +68,8 @@ jobs:
         path: 'test'
         env: ${{ matrix.env }}
         image: ${{ needs.docker.outputs.docker_image_name }}
-      secrets: inherit
-      environment: ${{ development }}
+      secrets: 
+        test: ${{ secrets.K8S_CONFIG }}
     
     # deploy-prd:
     #   needs: [docker]

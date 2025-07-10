@@ -4,6 +4,9 @@ on:
     outputs:
       docker_image_name: 
         value: ${{ jobs.docker-reusable.outputs.docker_image_name }}
+    secrets:
+      test:
+        required: true
 
 jobs:
   docker-reusable:
