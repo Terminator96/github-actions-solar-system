@@ -55,7 +55,6 @@ jobs:
         packages: write
 
     deploying:
-      
       strategy:
         matrix:
           env: [production, development]
@@ -69,6 +68,7 @@ jobs:
         path: 'test'
         env: ${{ matrix.env }}
         image: ${{ needs.docker.outputs.docker_image_name }}
+      secrets: inherit
     
     # deploy-prd:
     #   needs: [docker]
