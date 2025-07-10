@@ -69,6 +69,7 @@ jobs:
         env: ${{ matrix.env }}
         image: ${{ needs.docker.outputs.docker_image_name }}
       secrets: inherit
+      environment: ${{ development }}
     
     # deploy-prd:
     #   needs: [docker]
